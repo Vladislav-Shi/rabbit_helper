@@ -1,0 +1,147 @@
+[[package]]
+category = "main"
+description = "Wrapper for the aiormq for asyncio and humans."
+name = "aio-pika"
+optional = false
+python-versions = ">3.6, <4"
+version = "8.2.3"
+
+[package.dependencies]
+aiormq = ">=6.4.0,<6.5.0"
+yarl = "*"
+
+[package.extras]
+develop = ["aiomisc (>=16.0,<17.0)", "coverage (!=4.3)", "coveralls", "pylava", "pyflakes (<2.5)", "pytest", "pytest-cov", "shortuuid", "nox", "sphinx", "sphinx-autobuild", "timeout-decorator", "tox (>=2.4)"]
+
+[[package]]
+category = "main"
+description = "Pure python AMQP asynchronous client library"
+name = "aiormq"
+optional = false
+python-versions = ">=3.7"
+version = "6.4.2"
+
+[package.dependencies]
+pamqp = "3.2.1"
+yarl = "*"
+
+[package.extras]
+develop = ["aiomisc (>=16.0,<17.0)", "coverage (!=4.3)", "coveralls", "pylava", "pytest", "pytest-cov", "tox (>=2.4)"]
+
+[[package]]
+category = "dev"
+description = "the modular source code checker: pep8 pyflakes and co"
+name = "flake8"
+optional = false
+python-versions = ">=3.6.1"
+version = "5.0.4"
+
+[package.dependencies]
+mccabe = ">=0.7.0,<0.8.0"
+pycodestyle = ">=2.9.0,<2.10.0"
+pyflakes = ">=2.5.0,<2.6.0"
+
+[[package]]
+category = "main"
+description = "Internationalized Domain Names in Applications (IDNA)"
+name = "idna"
+optional = false
+python-versions = ">=3.5"
+version = "3.4"
+
+[[package]]
+category = "dev"
+description = "McCabe checker, plugin for flake8"
+name = "mccabe"
+optional = false
+python-versions = ">=3.6"
+version = "0.7.0"
+
+[[package]]
+category = "main"
+description = "multidict implementation"
+name = "multidict"
+optional = false
+python-versions = ">=3.7"
+version = "6.0.2"
+
+[[package]]
+category = "main"
+description = "RabbitMQ Focused AMQP low-level library"
+name = "pamqp"
+optional = false
+python-versions = ">=3.7"
+version = "3.2.1"
+
+[package.extras]
+codegen = ["lxml", "requests", "yapf"]
+testing = ["coverage", "flake8", "flake8-comprehensions", "flake8-deprecated", "flake8-import-order", "flake8-print", "flake8-quotes", "flake8-rst-docstrings", "flake8-tuple", "yapf"]
+
+[[package]]
+category = "dev"
+description = "Python style guide checker"
+name = "pycodestyle"
+optional = false
+python-versions = ">=3.6"
+version = "2.9.1"
+
+[[package]]
+category = "main"
+description = "Data validation and settings management using python type hints"
+name = "pydantic"
+optional = false
+python-versions = ">=3.7"
+version = "1.10.2"
+
+[package.dependencies]
+typing-extensions = ">=4.1.0"
+
+[package.extras]
+dotenv = ["python-dotenv (>=0.10.4)"]
+email = ["email-validator (>=1.0.3)"]
+
+[[package]]
+category = "dev"
+description = "passive checker of Python programs"
+name = "pyflakes"
+optional = false
+python-versions = ">=3.6"
+version = "2.5.0"
+
+[[package]]
+category = "main"
+description = "Backported and Experimental Type Hints for Python 3.7+"
+name = "typing-extensions"
+optional = false
+python-versions = ">=3.7"
+version = "4.3.0"
+
+[[package]]
+category = "main"
+description = "Yet another URL library"
+name = "yarl"
+optional = false
+python-versions = ">=3.7"
+version = "1.8.1"
+
+[package.dependencies]
+idna = ">=2.0"
+multidict = ">=4.0"
+
+[metadata]
+content-hash = "8f1419b100c0da81b7243aa655b3dffe5e659d18f40af2616840cb9419b956bd"
+python-versions = "^3.10"
+
+[metadata.files]
+aio-pika = []
+aiormq = []
+flake8 = []
+idna = []
+mccabe = []
+multidict = []
+pamqp = []
+pycodestyle = []
+pydantic = []
+pyflakes = []
+typing-extensions = []
+yarl = []
