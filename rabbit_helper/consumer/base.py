@@ -5,12 +5,16 @@ from aio_pika.abc import AbstractQueue
 
 from rabbit_helper.base.connections import BaseConnection
 from rabbit_helper.base.mesage import RabbitMessage
-from rabbit_helper.models import BaseRabbitConfig
+from rabbit_helper.models import BaseRabbitConfig, BaseConsumerConfig
 
 
 class BaseAsyncConsumer:
     _connection: BaseConnection
     _queue: AbstractQueue
+    _config: BaseConsumerConfig
+
+    def __init__(self, config: BaseConsumerConfig):
+        self._config = config
 
     async def perfome(self, message: RabbitMessage):
         """Метод логики обработки после получения"""
@@ -27,11 +31,11 @@ class BaseAsyncConsumer:
         self.perfome = func
 
     @classmethod
-    async def create_consumer(cls, config: BaseRabbitConfig) -> 'BaseAsyncConsumer':
+    async def create_consumer(cls, config: BaseConsumerConfig) -> 'BaseAsyncConsumer':
         """Создает из конфига базового слушателя"""
         print('Create consumer start')
-        consumer = cls()
-        consumer._connection = await BaseConnection.create_connection(connection_url=config.url)
+        consumer = cls(config=config)
+        consumer._connection = await BaseConnection.create_connection(config=config.connection)
         consumer._queue = await consumer._connection.get_channel().declare_queue(config.queue_name, auto_delete=True)
         return consumer
 
@@ -42,7 +46,7 @@ async def func(message: RabbitMessage):
 
 
 async def main():
-    config = BaseRabbitConfig(queue_name='test', url='amqp://guest:guest@127.0.0.1/')
+    config = BaseConsumerConfig(queue_name='test')
     consumer = await BaseAsyncConsumer.create_consumer(config=config)
     await consumer.set_perfome(func)
     await consumer.consume()

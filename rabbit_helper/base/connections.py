@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 
 import aio_pika
 
+from rabbit_helper.models import RabbtiConnectionConfig
+
 
 class AbstractConnection(ABC):
     connection_url: str
@@ -22,19 +24,26 @@ class AbstractConnection(ABC):
 
 
 class BaseConnection(AbstractConnection):
+    _config: RabbtiConnectionConfig
 
-    def __init__(self, connection_url: str):
-        self.connection_url = connection_url
+    def __init__(self, config: RabbtiConnectionConfig):
+        self._config = config
 
     async def connect(self):
-        self.connection = await aio_pika.connect(self.connection_url)
+        self.connection = await aio_pika.connect(
+            host=self._config.host,
+            port=self._config.port,
+            login=self._config.login,
+            password=self._config.password,
+            virtualhost=self._config.virtualhost,
+            ssl=self._config.ssl
+        )
         self.channel = await self.connection.channel()
 
     async def check(self) -> bool:
         """Если подключение отсутсвует вернет False, если есть True"""
         if self.connection.is_closed:
             return False
-        return True
 
     async def disconnect(self):
         await self.connection.close()
@@ -43,7 +52,7 @@ class BaseConnection(AbstractConnection):
         return self.channel
 
     @classmethod
-    async def create_connection(cls, connection_url: str) -> 'BaseConndection':
-        connection = cls(connection_url=connection_url)
+    async def create_connection(cls, config: RabbtiConnectionConfig) -> 'BaseConndection':
+        connection = cls(config=config)
         await connection.connect()
         return connection
