@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 import aio_pika
+from aiormq import ChannelNotFoundEntity
 
 from rabbit_helper.models import RabbtiConnectionConfig
 
@@ -19,7 +20,7 @@ class AbstractConnection(ABC):
         pass
 
     @abstractmethod
-    async def check(self) -> bool:
+    async def check(self, name: str) -> bool:
         return False
 
 
@@ -40,10 +41,16 @@ class BaseConnection(AbstractConnection):
         )
         self.channel = await self.connection.channel()
 
-    async def check(self) -> bool:
-        """Если подключение отсутсвует вернет False, если есть True"""
+    async def check(self, name: str) -> bool:
+        """Если подключение отсутсвует вернет False, если есть True
+        name: str Это название очереди к которой проверяется подключение"""
         if self.connection.is_closed:
             return False
+        try:
+            await self.channel.get_queue(name)
+        except ChannelNotFoundEntity:
+            return False
+        return True
 
     async def disconnect(self):
         await self.connection.close()

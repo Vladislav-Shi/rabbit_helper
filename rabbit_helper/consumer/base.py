@@ -5,7 +5,7 @@ from aio_pika.abc import AbstractQueue
 
 from rabbit_helper.base.connections import BaseConnection
 from rabbit_helper.base.mesage import RabbitMessage
-from rabbit_helper.models import BaseRabbitConfig, BaseConsumerConfig
+from rabbit_helper.models import BaseConsumerConfig
 
 
 class BaseAsyncConsumer:
