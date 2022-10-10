@@ -25,6 +25,7 @@ class AbstractConnection(ABC):
 
 
 class BaseConnection(AbstractConnection):
+    """Класс обрабатывает все что связано с каналами и подключением"""
     _config: RabbtiConnectionConfig
 
     def __init__(self, config: RabbtiConnectionConfig):

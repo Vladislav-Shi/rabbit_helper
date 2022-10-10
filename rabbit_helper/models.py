@@ -12,21 +12,21 @@ class RabbtiConnectionConfig(BaseModel):
     ssl: bool = False
 
 
-class ExchangeConfig(BaseModel):
-    exchange_type: ExchangeType = ExchangeType.DIRECT
-    durable_queue: bool = False  # долговечность очереди
-    auto_delete: bool = True  # Автоматически удалять очередь
-
-
 class BasePublisherConfig(BaseModel):
+    exchange_name: str = 'basic_exchange'
     connection: RabbtiConnectionConfig = RabbtiConnectionConfig()
     queue_name: str
 
 
 class BaseConsumerConfig(BaseModel):
+    exchange_name: str = 'basic_exchange'
     connection: RabbtiConnectionConfig = RabbtiConnectionConfig()
     durable_queue: bool = False  # долговечность очереди
     queue_name: str
+
+
+class ConsumerConfig(BaseConsumerConfig):
+    message_ttl: int = 600000  # по-умолчанию пусть живет 10 минут
 
 
 class BaseRabbitConfig(BaseModel):

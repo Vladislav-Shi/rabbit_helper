@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import Union
 
 from aio_pika import Message
@@ -30,4 +31,4 @@ class RabbitMessage(Message):
             else:
                 return json.loads(self.payload)
         except Exception:
-            print('Message must be correct JSON')
+            logging.debug('Message must be correct JSON')
