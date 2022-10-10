@@ -1,4 +1,3 @@
-import asyncio
 from typing import Union
 
 from aio_pika.abc import AbstractQueue
@@ -32,16 +31,5 @@ class BaseAsyncPublisher:
         """Создает из конфига базового публикатора"""
         publisher = cls(config=config)
         publisher._connection = await BaseConnection.create_connection(config=config.connection)
-        publisher._queue = await publisher._connection.get_channel().declare_queue(config.queue_name, auto_delete=True)
+        publisher._queue = await publisher._connection.get_channel().declare_queue(config.queue_name, durable=True)
         return publisher
-
-
-async def main():
-    config = BasePublisherConfig(queue_name='test')
-    publisher = await BaseAsyncPublisher.create_consumer(config=config)
-    # await asyncio.sleep(10)
-    await publisher.publish(message={'hello': 'world'})
-
-
-if __name__ == "__main__":
-    asyncio.run(main())

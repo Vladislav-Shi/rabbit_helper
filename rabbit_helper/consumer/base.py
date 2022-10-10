@@ -16,19 +16,23 @@ class BaseAsyncConsumer:
     def __init__(self, config: BaseConsumerConfig):
         self._config = config
 
-    async def perfome(self, message: RabbitMessage):
+    async def _perform(self, message: RabbitMessage):
         """Метод логики обработки после получения"""
         pass
 
     async def consume(self):
         async for message in self._queue:
-            await self.perfome(RabbitMessage.from_message(message))
+            await self._perform(RabbitMessage.from_message(message))
+            await message.ack()
 
     def __del__(self):
         self._connection.disconnect()
 
-    async def set_perfome(self, func: Callable[[RabbitMessage], None]):
-        self.perfome = func
+    async def set_perform(self, func: Callable[[RabbitMessage], None]) -> None:
+        """
+        :param func: функция типа async def func(message: RabbitMessage) -> None:
+        """
+        self._perform = func
 
     @classmethod
     async def create_consumer(cls, config: BaseConsumerConfig) -> 'BaseAsyncConsumer':
@@ -36,20 +40,5 @@ class BaseAsyncConsumer:
         print('Create consumer start')
         consumer = cls(config=config)
         consumer._connection = await BaseConnection.create_connection(config=config.connection)
-        consumer._queue = await consumer._connection.get_channel().declare_queue(config.queue_name, auto_delete=True)
+        consumer._queue = await consumer._connection.get_channel().declare_queue(config.queue_name,  durable=True)
         return consumer
-
-
-async def func(message: RabbitMessage):
-    print('New message:', message.payload)
-    print('New message:', message.dict())
-
-
-async def main():
-    config = BaseConsumerConfig(queue_name='test')
-    consumer = await BaseAsyncConsumer.create_consumer(config=config)
-    await consumer.set_perfome(func)
-    await consumer.consume()
-
-if __name__ == '__main__':
-    asyncio.run(main())

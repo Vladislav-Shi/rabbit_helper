@@ -18,6 +18,7 @@ await channel.set_qos(prefetch_count=100)
 # Declaring queue
 queue = await channel.declare_queue(queue_name, auto_delete=True)
 
+
 class AbstractQueue(ABC):
     queue_name: str
 
@@ -28,11 +29,3 @@ class AbstractQueue(ABC):
     @abstractmethod
     async def close(self):
         pass
-
-class BaseQueue(AbstractQueue):
-
-    async def declare(self):
-        queue = await channel.declare_queue(
-            "task_queue",
-            durable=True,
-        )
