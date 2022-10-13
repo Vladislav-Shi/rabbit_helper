@@ -1,4 +1,7 @@
+from typing import Callable
+
 from aio_pika.abc import AbstractQueue
+from aio_pika.patterns import RPC
 
 from ...rabbit_helper.base.mesage import RabbitMessage
 from ...rabbit_helper.consumer.base import BaseAsyncConsumer
@@ -48,4 +51,21 @@ class Consumer(BaseAsyncConsumer):
 
 class RpcConsumer(BaseAsyncConsumer):
     """Слушатель для удаленного вызова процедур"""
-    pass
+    rpc: RPC
+
+    async def perform(self, message: dict) -> dict:
+        """Метод логики обработки после получения"""
+        pass
+
+    async def consume(self):
+        await self.rpc.register("perform", self.perform, auto_delete=True)
+
+    async def set_perform(self, func: Callable[[dict], dict]) -> None:
+        self.perform = func
+
+    @classmethod
+    async def create_consumer(cls, config: ConsumerConfig) -> 'RpcConsumer':
+        """Создает из конфига базового слушателя"""
+        consumer: RpcConsumer = await super().create_consumer(config=config)
+        consumer.rpc = await RPC.create(consumer._connection.get_channel())
+        return consumer
