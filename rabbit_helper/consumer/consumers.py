@@ -1,8 +1,8 @@
 from aio_pika.abc import AbstractQueue
 
-from rabbit_helper.base.mesage import RabbitMessage
-from rabbit_helper.consumer.base import BaseAsyncConsumer
-from rabbit_helper.models import ConsumerConfig
+from rabbit_helper.rabbit_helper.base.mesage import RabbitMessage
+from rabbit_helper.rabbit_helper.consumer.base import BaseAsyncConsumer
+from rabbit_helper.rabbit_helper.models import ConsumerConfig
 
 
 class Consumer(BaseAsyncConsumer):
