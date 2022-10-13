@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import aio_pika
 from aiormq import ChannelNotFoundEntity
 
-from rabbit_helper.rabbit_helper.models import RabbtiConnectionConfig
+from ...rabbit_helper.models import RabbtiConnectionConfig
 
 
 class AbstractConnection(ABC):

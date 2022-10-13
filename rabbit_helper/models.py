@@ -1,4 +1,3 @@
-from aio_pika import ExchangeType
 from pydantic import BaseModel
 
 

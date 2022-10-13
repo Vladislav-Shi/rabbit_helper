@@ -4,9 +4,9 @@ from typing import Callable
 from aio_pika import logger
 from aio_pika.abc import AbstractQueue, ExchangeType, AbstractExchange
 
-from rabbit_helper.rabbit_helper.base.connections import BaseConnection
-from rabbit_helper.rabbit_helper.base.mesage import RabbitMessage
-from rabbit_helper.rabbit_helper.models import BaseConsumerConfig
+from ...rabbit_helper.base.connections import BaseConnection
+from ...rabbit_helper.base.mesage import RabbitMessage
+from ...rabbit_helper.models import BaseConsumerConfig
 
 logger.setLevel(logging.DEBUG)
 

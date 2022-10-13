@@ -1,7 +1,7 @@
 from typing import Union
 from unittest.mock import Mock
 
-from rabbit_helper.rabbit_helper.models import BaseRabbitConfig
+from ...rabbit_helper.models import BaseRabbitConfig
 
 
 class PublisherMock:
