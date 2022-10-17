@@ -1,3 +1,4 @@
+import asyncio
 from typing import Callable
 
 from aio_pika.abc import AbstractQueue
@@ -59,6 +60,10 @@ class RpcConsumer(BaseAsyncConsumer):
 
     async def consume(self):
         await self.rpc.register("perform", self.perform, auto_delete=True)
+        try:
+            await asyncio.Future()
+        finally:
+            await self._connection.disconnect()
 
     async def set_perform(self, func: Callable[[dict], dict]) -> None:
         self.perform = func
