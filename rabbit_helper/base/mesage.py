@@ -30,4 +30,4 @@ class RabbitMessage(Message):
             else:
                 return json.loads(self.payload)
         except Exception:
-            print('Message must be correct JSON')
+            raise ValueError('Message must be correct JSON')
